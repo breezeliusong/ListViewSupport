@@ -34,11 +34,52 @@ namespace ListViewSupport
             childList.Add(new Children() { number = 3 });
             childList.Add(new Children() { number = 4 });
             parentList = new ObservableCollection<Data>();
-            parentList.Add(new Data() { Name = "xiaoming", Child = "boy", ChildList=childList});
+            parentList.Add(new Data() { Name = "xiaoming", Child = "boy", ChildList = childList });
             parentList.Add(new Data() { Name = "xiaohei", Child = "girl", ChildList = childList });
             parentList.Add(new Data() { Name = "xiaoli", Child = "boy", ChildList = childList });
             parentList.Add(new Data() { Name = "xiaobai", Child = "girl", ChildList = childList });
-            //this.DataContext = parentList;
+
+
+            MyGrid.DataContext = parentList;
+        }
+
+        private void GridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var s = (FrameworkElement)sender;
+
+            if (s != null)
+            {
+
+                MenuFlyout myFlyout = new MenuFlyout();
+                MenuFlyoutItem callItem = new MenuFlyoutItem { Text = "Call" };
+                MenuFlyoutItem sendItem = new MenuFlyoutItem { Text = "Send a message" };
+                MenuFlyoutItem deleteItem = new MenuFlyoutItem { Text = "Delete" };
+
+                myFlyout.Items.Add(callItem);
+                myFlyout.Items.Add(sendItem);
+                myFlyout.Items.Add(deleteItem);
+
+                myFlyout.ShowAt(sender as UIElement, e.GetPosition(sender as UIElement));
+
+                deleteItem.Click += (sender2, args) =>
+                {
+
+                    if (args != null)
+                    {
+
+                        GridView gv = sender as GridView;
+                        var selectedItems = gv.SelectedItems.Cast<Data>().ToList();
+                        if (selectedItems != null)
+                        {
+
+                            foreach (Data del in selectedItems)
+                            {
+                                parentList.Remove(del);
+                            }
+                        }
+                    }
+                };
+            }
         }
     }
 }

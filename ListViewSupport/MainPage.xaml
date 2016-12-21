@@ -9,6 +9,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300" />
+            <RowDefinition Height="300" />
+        </Grid.RowDefinitions>
         <ListView x:Name="ListRedline" ItemsSource="{x:Bind parentList}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Data">
@@ -26,5 +30,19 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <GridView
+            Name="MyGrid"
+            Grid.Row="1"
+            ItemsSource="{Binding}"
+            RightTapped="GridViewItem_RightTapped">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="50" Height="50">
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding Child}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>
