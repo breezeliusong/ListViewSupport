@@ -63,18 +63,39 @@ namespace ListViewSupport
 
                 deleteItem.Click += (sender2, args) =>
                 {
+                    //scenario 1
 
+                    //if (args != null)
+                    //{
+
+                    //    GridView gv = sender as GridView;
+                    //    var selectedItems = gv.SelectedItems.Cast<Data>().ToList();
+                    //    if (selectedItems != null)
+                    //    {
+
+                    //        foreach (Data del in selectedItems)
+                    //        {
+                    //            parentList.Remove(del);
+                    //        }
+                    //    }
+                    //}
+
+                    //scenario 2
                     if (args != null)
                     {
+                        var parent = sender as DependencyObject;
+                        while (!(parent is GridView))
+                        {
+                            parent = VisualTreeHelper.GetParent(parent);
+                        }
+                        var gv = (parent as GridView);
 
-                        GridView gv = sender as GridView;
                         var selectedItems = gv.SelectedItems.Cast<Data>().ToList();
                         if (selectedItems != null)
                         {
-
-                            foreach (Data del in selectedItems)
+                            foreach (var item in selectedItems)
                             {
-                                parentList.Remove(del);
+                                parentList.Remove(item);
                             }
                         }
                     }

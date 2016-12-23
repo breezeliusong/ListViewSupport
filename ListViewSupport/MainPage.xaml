@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="300" />
             <RowDefinition Height="300" />
+            <RowDefinition Height="300" />
         </Grid.RowDefinitions>
         <ListView x:Name="ListRedline" ItemsSource="{x:Bind parentList}">
             <ListView.ItemTemplate>
@@ -34,10 +35,11 @@
             Name="MyGrid"
             Grid.Row="1"
             ItemsSource="{Binding}"
-            RightTapped="GridViewItem_RightTapped">
+            RightTapped="GridViewItem_RightTapped"
+            IsRightTapEnabled="True">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="50" Height="50">
+                    <StackPanel Width="50" Height="50" RightTapped="GridViewItem_RightTapped">
                         <TextBlock Text="{Binding Name}" />
                         <TextBlock Text="{Binding Child}" />
                     </StackPanel>
