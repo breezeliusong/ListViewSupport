@@ -97,6 +97,8 @@
     </Compile>
     <Compile Include="DataModel\Children.cs" />
     <Compile Include="DataModel\Data.cs" />
+    <Compile Include="DataModel\Model.cs" />
+    <Compile Include="ImageConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

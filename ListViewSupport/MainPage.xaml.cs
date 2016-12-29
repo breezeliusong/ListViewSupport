@@ -7,12 +7,17 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.BulkAccess;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -39,9 +44,34 @@ namespace ListViewSupport
             parentList.Add(new Data() { Name = "xiaoli", Child = "boy", ChildList = childList });
             parentList.Add(new Data() { Name = "xiaobai", Child = "girl", ChildList = childList });
 
-
             MyGrid.DataContext = parentList;
         }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var pictureQueryOptions = new QueryOptions();
+            //Read through all the subfolders. 
+            pictureQueryOptions.FolderDepth = FolderDepth.Deep;
+            //Apply the query on the PicturesLibrary 
+            var pictureQuery = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(pictureQueryOptions);
+
+            // get the files
+            var files = await pictureQuery.GetFilesAsync();
+
+            //var picturesInformation = new FileInformationFactory(pictureQuery, ThumbnailMode.PicturesView);
+            //PicGrid.DataContext = picturesInformation.GetVirtualizedFilesVector();
+            ObservableCollection<Model> list = new ObservableCollection<Model>();
+            foreach (var file in files)
+            {
+                var stream = await file.OpenReadAsync();
+                var image = new BitmapImage();
+                image.SetSource(stream);
+                 var model=new Model() { bitImage = image };
+                list.Add(model);
+            }
+            PicGrid.DataContext = list;
+        }
+        private BitmapImage image { get; set; }
 
         private void GridViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
@@ -101,6 +131,11 @@ namespace ListViewSupport
                     }
                 };
             }
+        }
+
+        private void Page_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

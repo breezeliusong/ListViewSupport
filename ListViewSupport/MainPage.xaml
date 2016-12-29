@@ -6,13 +6,19 @@
     xmlns:data="using:ListViewSupport.DataModel"
     xmlns:local="using:ListViewSupport"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <local:ImageConverter x:Name="Convert1" />
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.Resources />
         <Grid.RowDefinitions>
-            <RowDefinition Height="300" />
-            <RowDefinition Height="300" />
-            <RowDefinition Height="300" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <ListView x:Name="ListRedline" ItemsSource="{x:Bind parentList}">
             <ListView.ItemTemplate>
@@ -34,15 +40,33 @@
         <GridView
             Name="MyGrid"
             Grid.Row="1"
+            IsRightTapEnabled="True"
             ItemsSource="{Binding}"
-            RightTapped="GridViewItem_RightTapped"
-            IsRightTapEnabled="True">
+            RightTapped="GridViewItem_RightTapped">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="50" Height="50" RightTapped="GridViewItem_RightTapped">
+                    <StackPanel
+                        Width="50"
+                        Height="50"
+                        RightTapped="GridViewItem_RightTapped">
                         <TextBlock Text="{Binding Name}" />
                         <TextBlock Text="{Binding Child}" />
                     </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <GridView
+            Name="PicGrid"
+            Grid.Row="2"
+            Background="AliceBlue"
+            ItemsSource="{Binding}">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Image
+                        Name="pic"
+                        Width="100"
+                        Height="100"
+                        Source="{Binding bitImage}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
