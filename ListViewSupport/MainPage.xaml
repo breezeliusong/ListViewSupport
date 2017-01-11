@@ -16,6 +16,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources />
         <Grid.RowDefinitions>
+            <RowDefinition Height="400" />
             <RowDefinition Height="200" />
             <RowDefinition Height="200" />
             <RowDefinition Height="200" />
@@ -24,13 +25,20 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Data">
                     <ListView
-                        Height="50"
+                        Name="inner"
+                        Height="100"
                         Background="Red"
                         Header="{Binding Name}"
                         ItemsSource="{Binding ChildList}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding number}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding number}" />
+                                    <AppBarButton
+                                        Click="AppBarButton_Click"
+                                        Icon="Save"
+                                        Label="Share" />
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,10 +31,11 @@ namespace ListViewSupport
     public sealed partial class MainPage : Page
     {
         public ObservableCollection<Data> parentList { get; set; }
+        public ObservableCollection<Children> childList { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
-            List<Children> childList = new List<Children>();
+            childList = new ObservableCollection<Children>();
             childList.Add(new Children() { number = 1 });
             childList.Add(new Children() { number = 2 });
             childList.Add(new Children() { number = 3 });
@@ -136,6 +138,23 @@ namespace ListViewSupport
         private void Page_Loaded_1(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var parent = sender as DependencyObject;
+            while (!(parent is ListView))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            var gv = (parent as ListView);
+            var num = gv.SelectedItem;
+            Debug.WriteLine(gv.Name);
         }
     }
 }

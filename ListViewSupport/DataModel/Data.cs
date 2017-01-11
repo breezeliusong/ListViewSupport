@@ -11,7 +11,7 @@ namespace ListViewSupport.DataModel
     {
         public string Name { get; set; }
         public string Child { get; set; }
-        public List<Children> ChildList { get; set; }
+        public ObservableCollection<Children> ChildList { get; set; }
 
     }
 }
