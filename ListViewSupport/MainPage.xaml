@@ -21,7 +21,7 @@
             <RowDefinition Height="200" />
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
-        <ListView x:Name="ListRedline" ItemsSource="{x:Bind parentList}">
+        <!--<ListView x:Name="ListRedline" ItemsSource="{x:Bind parentList}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="data:Data">
                     <ListView
@@ -44,7 +44,37 @@
                     </ListView>
                 </DataTemplate>
             </ListView.ItemTemplate>
+        </ListView>-->
+        <ListView ScrollViewer.HorizontalScrollMode="Disabled" 
+          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+          ScrollViewer.VerticalScrollMode="Enabled"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ItemsSource="{x:Bind parentList}"
+                  Grid.Row="0">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="data:Data">
+                    <GridView 
+                        Height="100"
+          ScrollViewer.HorizontalScrollMode="Enabled" 
+          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+          ScrollViewer.VerticalScrollMode="Disabled"
+          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+          ItemsSource="{Binding ChildList}">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding number}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
+        
         <GridView
             Name="MyGrid"
             Grid.Row="1"
@@ -63,11 +93,20 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        
+
         <GridView
             Name="PicGrid"
             Grid.Row="2"
             Background="AliceBlue"
+            ScrollViewer.HorizontalScrollMode="Enabled"
+            ScrollViewer.HorizontalScrollBarVisibility="Visible"
             ItemsSource="{Binding}">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Image
