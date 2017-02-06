@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Pickers;
 using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -79,27 +80,29 @@ namespace ListViewSupport
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var pictureQueryOptions = new QueryOptions();
-            //Read through all the subfolders. 
-            pictureQueryOptions.FolderDepth = FolderDepth.Deep;
-            //Apply the query on the PicturesLibrary 
-            var pictureQuery = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(pictureQueryOptions);
+            //var pictureQueryOptions = new QueryOptions();
+            ////Read through all the subfolders. 
+            //pictureQueryOptions.FolderDepth = FolderDepth.Deep;
+            ////Apply the query on the PicturesLibrary 
+            //var pictureQuery = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(pictureQueryOptions);
 
-            // get the files
-            var files = await pictureQuery.GetFilesAsync();
-
-            //var picturesInformation = new FileInformationFactory(pictureQuery, ThumbnailMode.PicturesView);
-            //PicGrid.DataContext = picturesInformation.GetVirtualizedFilesVector();
-            ObservableCollection<Model> list = new ObservableCollection<Model>();
-            foreach (var file in files)
-            {
-                var stream = await file.OpenReadAsync();
-                var image = new BitmapImage();
-                image.SetSource(stream);
-                 var model=new Model() { bitImage = image };
-                list.Add(model);
-            }
-            PicGrid.DataContext = list;
+            //// get the files
+            //var files = await pictureQuery.GetFilesAsync();
+            //FolderPicker picker = new FolderPicker();
+            //StorageFolder folder =await picker.PickSingleFolderAsync();
+            //var files=await folder.GetFilesAsync();
+            ////var picturesInformation = new FileInformationFactory(pictureQuery, ThumbnailMode.PicturesView);
+            ////PicGrid.DataContext = picturesInformation.GetVirtualizedFilesVector();
+            //ObservableCollection<Model> list = new ObservableCollection<Model>();
+            //foreach (var file in files)
+            //{
+            //    var stream = await file.OpenReadAsync();
+            //    var image = new BitmapImage();
+            //    image.SetSource(stream);
+            //     var model=new Model() { bitImage = image };
+            //    list.Add(model);
+            //}
+            //PicGrid.DataContext = list;
         }
         private BitmapImage image { get; set; }
 
@@ -170,7 +173,7 @@ namespace ListViewSupport
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -183,6 +186,27 @@ namespace ListViewSupport
             var gv = (parent as ListView);
             var num = gv.SelectedItem;
             Debug.WriteLine(gv.Name);
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FolderPicker picker = new FolderPicker();
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            picker.FileTypeFilter.Add("*");
+            StorageFolder folder = await picker.PickSingleFolderAsync();
+            var files = await folder.GetFilesAsync();
+            ObservableCollection<Model> list = new ObservableCollection<Model>();
+            foreach (var file in files)
+            {
+                var stream = await file.OpenReadAsync();
+                var image = new BitmapImage();
+                image.SetSource(stream);
+                var model = new Model() { bitImage = image };
+                list.Add(model);
+            }
+            PicGrid.DataContext = list;
+
+            
         }
     }
 }
