@@ -36,6 +36,13 @@ namespace ListViewSupport
         public MainPage()
         {
             this.InitializeComponent();
+            ViewModel mo = new ViewModel();
+            Answers = new ObservableCollection<Data>();
+            foreach(var ite in mo.SelectedItems)
+            {
+            Answers.Add(ite);
+            }
+
             childList = new ObservableCollection<Children>();
             childList.Add(new Children() { number = 1 });
             childList.Add(new Children() { number = 2 });
@@ -103,6 +110,7 @@ namespace ListViewSupport
             //    list.Add(model);
             //}
             //PicGrid.DataContext = list;
+            Debug.Write("");
         }
         private BitmapImage image { get; set; }
 
@@ -191,7 +199,7 @@ namespace ListViewSupport
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             FolderPicker picker = new FolderPicker();
-            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.MusicLibrary;
             picker.FileTypeFilter.Add("*");
             StorageFolder folder = await picker.PickSingleFolderAsync();
             var files = await folder.GetFilesAsync();
@@ -205,8 +213,15 @@ namespace ListViewSupport
                 list.Add(model);
             }
             PicGrid.DataContext = list;
-
-            
         }
+
+        public ObservableCollection<Data> Answers { get; set; }
+        //private void ListView_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    foreach (var item in (this.DataContext as ViewModel).SelectedItems)
+        //    {
+        //        listView.SelectedItems.Add(item);
+        //    }
+        //}
     }
 }
